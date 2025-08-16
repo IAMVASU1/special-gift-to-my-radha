@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>For My Radha – Janmashtami Card</title>
+    <style>
+      :root {
+        --ink: #0f172a;
+        --bg1: #0a1022;
+        --bg2: #1a2b5f;
+        --accent: #ffd166;
+        --accent-2: #a7f3d0;
+        --pink: #ff6b9e;
+        --heart: #ff3b62;
+        --glow: 0 0 30px rgba(255, 209, 102, 0.35),
+          0 0 60px rgba(167, 243, 208, 0.25);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+          "Helvetica Neue", Arial;
+        color: #f8fafc;
+        background: radial-gradient(
+            1200px 700px at 50% -10%,
+            rgba(167, 243, 208, 0.08),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 600px at 90% 10%,
+            rgba(255, 209, 102, 0.08),
+            transparent 60%
+          ),
+          linear-gradient(160deg, var(--bg1), var(--bg2));
+        display: grid;
+        place-items: center;
+        padding: 28px;
+      }
+      .card {
+        width: min(880px, 95vw);
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.06);
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35), var(--glow);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        overflow: hidden;
+        position: relative;
+      }
+      .gold-border {
+        --g: repeating-linear-gradient(
+          45deg,
+          rgba(255, 209, 102, 0.8) 0 8px,
+          rgba(255, 209, 102, 0.2) 8px 16px
+        );
+        position: absolute;
+        inset: 0;
+        padding: 2px;
+        border-radius: 28px;
+        -webkit-mask: linear-gradient(#000 0 0) content-box,
+          linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        background: var(--g);
+        filter: saturate(1.2) brightness(1.05);
+        pointer-events: none;
+      }
+      .ribbon {
+        padding: 18px 22px 6px;
+        text-align: center;
+        font-weight: 700;
+        color: var(--accent);
+        text-shadow: 0 2px 8px rgba(255, 209, 102, 0.45);
+      }
+      .ribbon small {
+        display: block;
+        color: #c7f9e5;
+        font-weight: 600;
+        opacity: 0.9;
+        margin-top: 4px;
+      }
+      .inner {
+        padding: 26px clamp(18px, 3vw, 32px) 32px;
+        position: relative;
+      }
+      .title {
+        font-size: clamp(28px, 6.2vw, 56px);
+        line-height: 1.1;
+        margin: 6px 0 4px;
+        text-align: center;
+      }
+      .subtitle {
+        text-align: center;
+        opacity: 0.9;
+        margin: 8px auto 18px;
+        max-width: 60ch;
+      }
+      .silhouette {
+        width: 100%;
+        max-width: 540px;
+        margin: 22px auto 8px;
+        display: block;
+        filter: drop-shadow(0 18px 35px rgba(0, 0, 0, 0.55));
+      }
+      .controls {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        margin: 18px 0 8px;
+      }
+      .btn {
+        border: none;
+        cursor: pointer;
+        border-radius: 999px;
+        padding: 12px 18px;
+        font-weight: 700;
+        background: linear-gradient(180deg, #ffd166, #ffb703);
+        color: #3a2c00;
+        box-shadow: 0 8px 22px rgba(255, 183, 3, 0.35);
+        transition: transform 0.15s ease, filter 0.15s ease;
+      }
+      .btn:hover {
+        transform: translateY(-1px);
+        filter: saturate(1.1);
+      }
+      .btn.secondary {
+        background: linear-gradient(180deg, #a7f3d0, #57e3b3);
+        color: #053b2f;
+        box-shadow: 0 8px 22px rgba(87, 227, 179, 0.35);
+      }
+      .note {
+        margin: 18px auto 8px;
+        max-width: 760px;
+        padding: 18px 18px 22px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(6px);
+        display: none;
+        position: relative;
+      }
+      .note.show {
+        display: block;
+        animation: pop 0.5s ease;
+      }
+      .note p {
+        margin: 0;
+        font-size: clamp(16px, 2.4vw, 18px);
+        line-height: 1.6;
+      }
+      @keyframes pop {
+        from {
+          transform: scale(0.97);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .petals {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .petal {
+        position: absolute;
+        top: -10vh;
+        width: 14px;
+        height: 18px;
+        background: radial-gradient(
+            circle at 40% 30%,
+            #fff 0 20%,
+            transparent 21%
+          ),
+          radial-gradient(
+            ellipse at center,
+            rgba(255, 182, 193, 0.9),
+            rgba(255, 105, 135, 0.9)
+          );
+        border-radius: 60% 60% 60% 60% / 70% 70% 30% 30%;
+        opacity: 0.9;
+        filter: blur(0.2px);
+        animation: fall linear forwards;
+      }
+      @keyframes fall {
+        to {
+          transform: translate3d(var(--x, 0), 110vh, 0) rotate(540deg);
+          opacity: 0.98;
+        }
+      }
+      .footer {
+        padding: 14px 18px 22px;
+        text-align: center;
+        font-size: 14px;
+        opacity: 0.9;
+      }
+      .pulse {
+        color: var(--heart);
+        display: inline-block;
+        animation: beat 1.2s infinite;
+      }
+      @keyframes beat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        25% {
+          transform: scale(1.2);
+        }
+        50% {
+          transform: scale(0.9);
+        }
+        75% {
+          transform: scale(1.15);
+        }
+      }
+      .feather {
+        position: absolute;
+        right: -22px;
+        top: -22px;
+        width: 140px;
+        opacity: 0.55;
+        transform: rotate(22deg);
+        filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.35));
+      }
+      @media print {
+        .controls {
+          display: none;
+        }
+        body {
+          background: white;
+        }
+        .card {
+          box-shadow: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background flute audio -->
+    <audio id="fluteAudio" autoplay loop>
+      <source src="flute-voice.m4a" type="audio/mpeg" />
+    </audio>
+
+    <div class="card" role="article" aria-label="Janmashtami love card">
+      <div class="gold-border"></div>
+      <svg class="feather" viewBox="0 0 200 400" aria-hidden="true">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#47e5bc" />
+            <stop offset="50%" stop-color="#14b8a6" />
+            <stop offset="100%" stop-color="#7dd3fc" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M120 10 C 10 120, 10 280, 120 390"
+          stroke="url(#g)"
+          stroke-width="6"
+          fill="none"
+        />
+        <ellipse
+          cx="110"
+          cy="90"
+          rx="48"
+          ry="34"
+          fill="#10b981"
+          opacity=".85"
+        />
+        <ellipse cx="110" cy="90" rx="30" ry="22" fill="#0ea5e9" opacity=".9" />
+        <circle cx="110" cy="90" r="10" fill="#1e293b" />
+      </svg>
+      <div class="ribbon">
+        शुभ जन्माष्टमी • Happy Janmashtami
+        <small>श्री कृष्ण गोविंद हरे मुरारी • Jay Shri Krishna</small>
+      </div>
+      <div class="inner">
+        <svg class="silhouette" viewBox="0 0 640 260" aria-hidden="true">
+          <path
+            d="M100 220q40-90 120-120 40-12 90 10 50 22 100-20 30-24 60-24"
+            stroke="#ffd166"
+            stroke-width="3"
+            fill="none"
+            opacity=".7"
+          />
+          <path
+            d="M120 210q30-50 60-70 30-20 60 0 12 8 30 8 28 0 54-22"
+            stroke="#a7f3d0"
+            stroke-width="2.5"
+            fill="none"
+            opacity=".9"
+          />
+          <path
+            d="M320 160 q40-30 72-60"
+            stroke="#ffd166"
+            stroke-width="3"
+            fill="none"
+            opacity=".8"
+          />
+          <circle cx="310" cy="120" r="6" fill="#ffd166" />
+          <circle cx="332" cy="100" r="5" fill="#a7f3d0" />
+        </svg>
+        <h1 class="title">
+          To My <span style="color: var(--accent)">Radha</span>, on Janmashtami
+        </h1>
+        <p class="subtitle">
+          May Kanha’s flute carry this little note straight to your heart. You
+          are my favorite leela, my calm in chaos, my forever madhurya.
+        </p>
+        <div class="controls">
+          <button class="btn" id="reveal">Open Blessing 💌</button>
+          <button class="btn secondary" id="print">Print / Save PDF</button>
+        </div>
+        <section class="note" id="note" aria-live="polite">
+          <p id="message">
+            My dearest <strong>Radha</strong>, on this sacred night, I pray for
+            a life where I get to love you with the patience of Krishna and the
+            purity of Vrindavan. Your smile is my makhan, your voice my flute,
+            your presence my temple. Thank you for choosing me in every small
+            moment. Today and always, I choose you—again and again.
+            <span class="pulse">❤</span>
+          </p>
+        </section>
+        <div class="footer">
+          — With all my love, <span id="fromName">Vasu</span> •
+          <span aria-hidden="true">🪈🦚</span>
+        </div>
+        <div class="petals" id="petals" aria-hidden="true"></div>
+      </div>
+    </div>
+    <script>
+      const HER_NAME = "Radha";
+      const FROM_NAME = "Vasu";
+      const CUSTOM_MESSAGE = "";
+
+      if (HER_NAME) {
+        document.title = `For My ${HER_NAME} – Janmashtami Card`;
+        document.querySelector(
+          ".title"
+        ).innerHTML = `To My <span style=\"color:var(--accent)\">${HER_NAME}</span>, on Janmashtami`;
+        document.getElementById("message").innerHTML =
+          CUSTOM_MESSAGE && CUSTOM_MESSAGE.trim().length
+            ? CUSTOM_MESSAGE
+            : document
+                .getElementById("message")
+                .innerHTML.replace(/Radha/g, HER_NAME);
+      }
+      if (FROM_NAME)
+        document.getElementById("fromName").textContent = FROM_NAME;
+
+      const note = document.getElementById("note");
+      const flute = document.getElementById("fluteAudio");
+
+      document.getElementById("reveal").addEventListener("click", () => {
+        note.classList.add("show");
+        showerPetals();
+
+        // 🎶 Play flute when blessing opens
+        flute.play().catch((err) => {
+          console.log("Autoplay blocked, user must interact:", err);
+        });
+      });
+
+      document
+        .getElementById("print")
+        .addEventListener("click", () => window.print());
+
+      function showerPetals() {
+        const wrap = document.getElementById("petals");
+        wrap.innerHTML = "";
+        const N = 36;
+        for (let i = 0; i < N; i++) {
+          const s = document.createElement("span");
+          s.className = "petal";
+          const startX = Math.random() * 100;
+          const drift = Math.random() * 60 - 30 + "vw";
+          const delay = Math.random() * 0.8 + "s";
+          const dur = Math.random() * 4 + 5 + "s";
+          const size = Math.random() * 10 + 10;
+          s.style.left = startX + "vw";
+          s.style.setProperty("--x", drift);
+          s.style.animationDuration = dur;
+          s.style.animationDelay = delay;
+          s.style.width = size + "px";
+          s.style.height = size * 1.2 + "px";
+          wrap.appendChild(s);
+        }
+      }
+    </script>
+  </body>
+</html>
